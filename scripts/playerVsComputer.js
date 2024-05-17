@@ -1,5 +1,7 @@
 buttons = document.querySelectorAll(".area");
 gameStatusSpan = document.querySelector(".gameStatus");
+popup = document.querySelector("#popup");
+resetButton = document.querySelector("#reset");
 game = [
   ["", "", ""],
   ["", "", ""],
@@ -62,5 +64,22 @@ buttons.forEach(function (button) {
     }
     Gamestatus = findWinner(game);
     gameStatusSpan.innerHTML = Gamestatus;
+    if (Gamestatus != "No winner") {
+      popup.classList.remove("hidden");
+    }
   });
+});
+
+resetButton.addEventListener("click", function () {
+  game = [
+    ["", "", ""],
+    ["", "", ""],
+    ["", "", ""],
+  ];
+  buttons.forEach(function (button) {
+    button.innerHTML = "";
+    popup.classList.add("hidden");
+  });
+  Gamestatus = "No winner";
+  nowX = true;
 });
