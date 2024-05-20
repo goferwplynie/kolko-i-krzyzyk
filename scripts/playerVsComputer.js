@@ -10,6 +10,9 @@ game = [
 
 let Gamestatus = "No winner";
 let nowX = true;
+let move = 0;
+let num1 = 0;
+let num2 = 0;
 
 const findWinner = function (array) {
   for (let i = 0; i < 3; i++) {
@@ -47,24 +50,29 @@ const findWinner = function (array) {
   return "No winner";
 };
 
+function RandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 buttons.forEach(function (button) {
   button.addEventListener("click", function () {
-    if (Gamestatus == "No winner") {
-      areaClicked = button.value;
-      areaClicked = [areaClicked[0], areaClicked[2]];
-      if (nowX) {
+    if (Gamestatus == "No winner" && move < 9) {
+      if (button.innerHTML == "") {
+        areaClicked = button.value;
+        areaClicked = [areaClicked[0], areaClicked[2]];
         button.innerHTML = "X";
         game[areaClicked[0]][areaClicked[1]] = "X";
-        nowX = false;
-      } else {
-        button.innerHTML = "O";
-        game[areaClicked[0]][areaClicked[1]] = "O";
-        nowX = true;
+        while (game[num1][num2] != "") {
+          num1 = RandomInt(0, 2);
+          num2 = RandomInt(0, 2);
+        }
+        game[num1][num2] = "O";
+        buttons[num1 * 3 + num2].innerHTML = "O"; //buttons num1 * 3 wybiera pierwszy indeks tablicy, a num2 wybiera drugi indeks tablicy
       }
     }
     Gamestatus = findWinner(game);
     gameStatusSpan.innerHTML = Gamestatus;
-    if (Gamestatus != "No winner") {
+    if (Gamestatus != "No winner" || move == 9) {
       popup.classList.remove("hidden");
     }
   });
@@ -82,4 +90,5 @@ resetButton.addEventListener("click", function () {
   });
   Gamestatus = "No winner";
   nowX = true;
+  move = 0;
 });

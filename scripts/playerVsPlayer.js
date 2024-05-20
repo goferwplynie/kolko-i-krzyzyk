@@ -10,6 +10,7 @@ game = [
 
 let Gamestatus = "No winner";
 let nowX = true;
+let move = 0;
 
 const findWinner = function (array) {
   for (let i = 0; i < 3; i++) {
@@ -34,7 +35,7 @@ const findWinner = function (array) {
     if (array[0][0] === "X") {
       return "X wygrywa";
     } else if (array[0][0] === "O") {
-      return "O";
+      return "O wygrywa";
     }
   }
   if (array[0][2] === array[1][1] && array[1][1] === array[2][0]) {
@@ -49,22 +50,25 @@ const findWinner = function (array) {
 
 buttons.forEach(function (button) {
   button.addEventListener("click", function () {
-    if (Gamestatus == "No winner") {
+    if (Gamestatus == "No winner" && move < 9) {
       areaClicked = button.value;
       areaClicked = [areaClicked[0], areaClicked[2]];
-      if (nowX) {
-        button.innerHTML = "X";
-        game[areaClicked[0]][areaClicked[1]] = "X";
-        nowX = false;
-      } else {
-        button.innerHTML = "O";
-        game[areaClicked[0]][areaClicked[1]] = "O";
-        nowX = true;
+      if (button.innerHTML == "") {
+        move++;
+        if (nowX) {
+          button.innerHTML = "X";
+          game[areaClicked[0]][areaClicked[1]] = "X";
+          nowX = false;
+        } else {
+          button.innerHTML = "O";
+          game[areaClicked[0]][areaClicked[1]] = "O";
+          nowX = true;
+        }
       }
     }
     Gamestatus = findWinner(game);
     gameStatusSpan.innerHTML = Gamestatus;
-    if (Gamestatus != "No winner") {
+    if (Gamestatus != "No winner" || move == 9) {
       popup.classList.remove("hidden");
     }
   });
@@ -82,4 +86,5 @@ resetButton.addEventListener("click", function () {
   });
   Gamestatus = "No winner";
   nowX = true;
+  move = 0;
 });
