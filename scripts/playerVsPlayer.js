@@ -57,10 +57,12 @@ buttons.forEach(function (button) {
         move++;
         if (nowX) {
           button.innerHTML = "X";
+          button.classList.add("X");
           game[areaClicked[0]][areaClicked[1]] = "X";
           nowX = false;
         } else {
           button.innerHTML = "O";
+          button.classList.add("O");
           game[areaClicked[0]][areaClicked[1]] = "O";
           nowX = true;
         }
@@ -82,6 +84,8 @@ resetButton.addEventListener("click", function () {
   ];
   buttons.forEach(function (button) {
     button.innerHTML = "";
+    button.classList.remove("X");
+    button.classList.remove("O");
     popup.classList.add("hidden");
   });
   Gamestatus = "No winner";

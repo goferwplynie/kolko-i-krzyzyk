@@ -9,7 +9,7 @@ game = [
 ];
 
 let Gamestatus = "No winner";
-let nowX = true;
+let computerMoveDone = true;
 let move = 0;
 let num1 = 0;
 let num2 = 0;
@@ -37,14 +37,14 @@ const findWinner = function (array) {
     if (array[0][0] === "X") {
       return "X wygrywa";
     } else if (array[0][0] === "O") {
-      return "O";
+      return "O wygrywa";
     }
   }
   if (array[0][2] === array[1][1] && array[1][1] === array[2][0]) {
     if (array[0][2] === "X") {
       return "X wygrywa";
     } else if (array[0][2] === "O") {
-      return "O";
+      return "O wygrywa";
     }
   }
   return "No winner";
@@ -54,26 +54,44 @@ function RandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-buttons.forEach(function (button) {
-  button.addEventListener("click", function () {
-    if (Gamestatus == "No winner" && move < 9) {
-      if (button.innerHTML == "") {
-        areaClicked = button.value;
-        areaClicked = [areaClicked[0], areaClicked[2]];
-        button.innerHTML = "X";
-        game[areaClicked[0]][areaClicked[1]] = "X";
-        while (game[num1][num2] != "") {
-          num1 = RandomInt(0, 2);
-          num2 = RandomInt(0, 2);
-        }
-        game[num1][num2] = "O";
-        buttons[num1 * 3 + num2].innerHTML = "O"; //buttons num1 * 3 wybiera pierwszy indeks tablicy, a num2 wybiera drugi indeks tablicy
-      }
+function computerMove() {
+  if (Gamestatus === "No winner" && move < 9) {
+    while (game[num1][num2] !== "") {
+      num1 = RandomInt(0, 2);
+      num2 = RandomInt(0, 2);
     }
+    game[num1][num2] = "O";
+    buttons[num1 * 3 + num2].innerHTML = "O"; //buttons num1 * 3 wybiera pierwszy indeks tablicy, a num2 wybiera drugi indeks tablicy
+    buttons[num1 * 3 + num2].classList.add("O");
+    move++;
     Gamestatus = findWinner(game);
     gameStatusSpan.innerHTML = Gamestatus;
-    if (Gamestatus != "No winner" || move == 9) {
+    if (Gamestatus !== "No winner" || move === 9) {
       popup.classList.remove("hidden");
+    }
+    computerMoveDone = true;
+  }
+}
+
+buttons.forEach(function (button) {
+  button.addEventListener("click", function () {
+    if (Gamestatus === "No winner" && move < 9 && computerMoveDone) {
+      if (button.innerHTML === "") {
+        computerMoveDone = false;
+        let areaClicked = button.value;
+        areaClicked = [parseInt(areaClicked[0]), parseInt(areaClicked[2])];
+        button.innerHTML = "X";
+        button.classList.add("X");
+        game[areaClicked[0]][areaClicked[1]] = "X";
+        move++;
+        Gamestatus = findWinner(game);
+        gameStatusSpan.innerHTML = Gamestatus;
+        if (Gamestatus !== "No winner" || move === 9) {
+          popup.classList.remove("hidden");
+        } else {
+          setTimeout(computerMove, 1000);
+        }
+      }
     }
   });
 });
@@ -86,9 +104,12 @@ resetButton.addEventListener("click", function () {
   ];
   buttons.forEach(function (button) {
     button.innerHTML = "";
-    popup.classList.add("hidden");
+    button.classList.remove("X");
+    button.classList.remove("O");
   });
+  popup.classList.add("hidden");
   Gamestatus = "No winner";
-  nowX = true;
+  gameStatusSpan.innerHTML = Gamestatus;
+  computerMoveDone = true;
   move = 0;
 });

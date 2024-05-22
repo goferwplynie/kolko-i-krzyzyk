@@ -4,7 +4,7 @@ body {
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-color: rgb(81, 81, 81);
+  background-color: rgb(20, 20, 20);
 }
 
 h1 {
@@ -13,7 +13,7 @@ h1 {
 }
 
 button {
-  background-color: rgb(45, 45, 45);
+  background-color: rgb(85, 4, 133);
   color: white;
   font-size: 1.5rem;
   padding: 0.5rem 1rem;
@@ -24,7 +24,6 @@ button {
 }
 
 button:hover {
-  background-color: rgb(60, 60, 60);
   box-shadow: 0px 0px 10px 3px #fff;
   transition: 0.3s;
 }
