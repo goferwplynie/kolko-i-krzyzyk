@@ -56,12 +56,14 @@ function RandomInt(min, max) {
 
 function computerMove() {
   if (Gamestatus === "No winner" && move < 9) {
+    num1 = RandomInt(0, 2);
+    num2 = RandomInt(0, 2);
     while (game[num1][num2] !== "") {
       num1 = RandomInt(0, 2);
       num2 = RandomInt(0, 2);
     }
     game[num1][num2] = "O";
-    buttons[num1 * 3 + num2].innerHTML = "O"; //buttons num1 * 3 wybiera pierwszy indeks tablicy, a num2 wybiera drugi indeks tablicy
+    buttons[num1 * 3 + num2].innerHTML = "O";
     buttons[num1 * 3 + num2].classList.add("O");
     move++;
     Gamestatus = findWinner(game);
