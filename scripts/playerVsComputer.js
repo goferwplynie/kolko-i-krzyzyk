@@ -14,7 +14,7 @@ let move = 0;
 let num1 = 0;
 let num2 = 0;
 
-const findWinner = function (array) {
+function findWinner(array) {
   for (let i = 0; i < 3; i++) {
     if (array[i][0] === array[i][1] && array[i][1] === array[i][2]) {
       if (array[i][0] === "X") {
@@ -48,7 +48,7 @@ const findWinner = function (array) {
     }
   }
   return "No winner";
-};
+}
 
 function RandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
